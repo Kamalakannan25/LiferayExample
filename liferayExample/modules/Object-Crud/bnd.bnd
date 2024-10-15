@@ -1,0 +1,4 @@
+Bundle-Name: Object-Crud
+Bundle-SymbolicName: com.demo.objects
+Bundle-Version: 1.0.0
+Export-Package: com.demo.objects.constants
