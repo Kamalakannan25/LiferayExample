@@ -1,0 +1,3 @@
+Bundle-Name: Sample-Headless-client
+Bundle-SymbolicName: com.demo.rest.client
+Bundle-Version: 1.0.0

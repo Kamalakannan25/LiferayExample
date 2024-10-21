@@ -1,0 +1,5 @@
+Bundle-Name: EmpForm-Override
+Bundle-SymbolicName: empform.override
+Bundle-Version: 1.0.0
+Fragment-Host: com.liferay.dynamic.data.mapping.form.web;bundle-version="4.0.156"
+Portal-Bundle-Version: 7.4.3.106

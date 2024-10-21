@@ -1,3 +1,4 @@
+<%@page import="com.liferay.portal.kernel.util.ParamUtil"%>
 <%@ include file="/init.jsp" %>
 <%@page import="org.json.JSONObject"%>
 <%@page import="org.json.JSONArray"%>
@@ -11,6 +12,15 @@ JSONArray jsonArray = EmpData.getJSONArray("items");
 
 %> 
 
+<portlet:renderURL var="addEmployeeRenderURL">
+    <portlet:param name="mvcPath" value="/addEmployee.jsp"/>
+</portlet:renderURL>
+ 
+<div class="mb-5">
+    <a href="<%= addEmployeeRenderURL %>" class="btn  btn-primary btn-default">
+        <i class="glyphicon glyphicon-plus"></i> Add Employee
+    </a>
+</div>
 
 <table id="moduleTable" class="display">
     <thead>
@@ -21,6 +31,7 @@ JSONArray jsonArray = EmpData.getJSONArray("items");
             <th>Emp Age</th>
             <th>Emp Phone No</th>
             <th>Emp Photo</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -41,6 +52,14 @@ JSONArray jsonArray = EmpData.getJSONArray("items");
             <td><%= employeeAge %></td>
             <td><%= employeePhoneNo %></td>
             <td><img src="<%= employeePhoto %>" height="50" width="50"></td>
+            <td>
+                    <portlet:renderURL var="editRenderURL">
+                    	<portlet:param name="mvcPath" value="/updateEmployee.jsp"/>
+                         <portlet:param name="id" value="<%=String.valueOf(id) %>"/>
+                    </portlet:renderURL>
+                    <a href="<%= editRenderURL %>" class="btn btn-primary">Edit</a>
+                    
+                </td>
         </tr>
     
     <% } %>

@@ -1,0 +1,4 @@
+Bundle-Name: Sample-Headless-test
+Bundle-SymbolicName: com.demo.rest.test
+Bundle-Version: 1.0.0
+-includeresource: com.demo.rest.client.jar=../Sample-Headless-client/build/libs/com.demo.rest.client-1.0.0.jar;lib:=true
