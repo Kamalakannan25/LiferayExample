@@ -1,0 +1,1 @@
+create index IX_D140C944 on BUILD_Student (uuid_[$COLUMN_LENGTH:75$]);

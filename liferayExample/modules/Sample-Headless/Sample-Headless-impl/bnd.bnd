@@ -1,0 +1,3 @@
+Bundle-Name: Sample-Headless-impl
+Bundle-SymbolicName: com.demo.rest.impl
+Bundle-Version: 1.0.0

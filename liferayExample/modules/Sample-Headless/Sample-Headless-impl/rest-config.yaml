@@ -1,0 +1,9 @@
+apiDir: "../Sample-Headless-api/src/main/java"
+apiPackagePath: "com.demo.rest"
+application:
+    baseURI: "/Sample-Headless"
+    className: "SampleHeadlessApplication"
+    name: "SampleHeadless"
+author: "Suchismita"
+clientDir: "../Sample-Headless-client/src/main/java"
+testDir: "../Sample-Headless-test/src/testIntegration/java"
