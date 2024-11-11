@@ -1,0 +1,11 @@
+dependencies {
+	compile project(":modules:WebService-Builder:WebService-Builder-api")
+
+	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
+}
+
+buildService {
+	apiDir = "../WebService-Builder-api/src/main/java"
+}
+
+group = "com.demo.webservice"

@@ -34,9 +34,11 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
+import javax.portlet.ProcessAction;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 
@@ -146,23 +148,24 @@ public class ObjectCrudPortlet extends MVCPortlet {
 	        _log.error("Error uploading file: " + e.getMessage(), e);
 	    }
 	}
-
+	
 	public void updateEmployee(ActionRequest actionRequest, ActionResponse actionResponse)
 	        throws IOException, PortletException {
-		
-		System.out.println("Update employee Method inside..............");
+	    
+	    System.out.println("Inside updateEmployee method...");
 
-		long id = ParamUtil.getLong(actionRequest, "id");
-		System.out.println("Update EmployeeId : " + id);
-		
-		
-	    UploadPortletRequest uploadPortletRequest = PortalUtil.getUploadPortletRequest(actionRequest);	    	    
-	    File file = uploadPortletRequest.getFile("employeePhoto");
+	    UploadPortletRequest uploadPortletRequest = PortalUtil.getUploadPortletRequest(actionRequest);
+	    long id = ParamUtil.getLong(actionRequest, "id");
 	    String empName = ParamUtil.getString(uploadPortletRequest, "employeeName");
 	    String empAddress = ParamUtil.getString(uploadPortletRequest, "employeeAddress");
 	    int empAge = ParamUtil.getInteger(uploadPortletRequest, "employeeAge");
 	    long empPhoneNo = ParamUtil.getLong(uploadPortletRequest, "employeePhoneNo");
-	    long empId = ParamUtil.getLong(uploadPortletRequest, "id");
+
+	    File file = uploadPortletRequest.getFile("employeePhoto");
+	    if (file == null || !file.exists()) {
+	        _log.error("File is missing or could not be found.");
+	        return;
+	    }
 
 	    ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
 	    long repositoryId = themeDisplay.getScopeGroupId();
@@ -172,18 +175,20 @@ public class ObjectCrudPortlet extends MVCPortlet {
 	    try {
 	        serviceContext = ServiceContextFactory.getInstance(DLFileEntry.class.getName(), actionRequest);
 	    } catch (PortalException e1) {
-	        _log.error("Error initializing service context: " + e1.getMessage(), e1);
+	        _log.error("Error initializing service context: ", e1);
 	        return;
 	    }
 
 	    try (InputStream is = new FileInputStream(file)) {
-	        String title = file.getName();
-	        String description = "Updated profile picture of " + empName;
 	        String mimeType = MimeTypesUtil.getContentType(file);
-	        FileEntry fileEntry = DLAppServiceUtil.addFileEntry("", repositoryId, folderId, file.getName(), mimeType, title,
-	                description, "", mimeType, is, file.length(), null, null, serviceContext);
+	        FileEntry fileEntry = DLAppServiceUtil.addFileEntry(
+	                 "", repositoryId, folderId, file.getName(), mimeType, 
+	                file.getName(), "Updated profile picture of " + empName, "", mimeType, is, 
+	                file.length(), null, null, serviceContext);
+	        
+//	        addFileEntry("", repositoryId, folderId, file.getName(), mimeType, title,
+//	                description, "", mimeType, is, file.length(), null, null, serviceContext);
 
-	        String fileEntryId = String.valueOf(fileEntry.getFileEntryId());
 	        String fileEntryURL = DLURLHelperUtil.getPreviewURL(
 	                fileEntry, fileEntry.getFileVersion(), themeDisplay, StringPool.BLANK, false, false);
 
@@ -192,33 +197,146 @@ public class ObjectCrudPortlet extends MVCPortlet {
 	        employeeData.put("employeeAddress", empAddress);
 	        employeeData.put("employeeAge", empAge);
 	        employeeData.put("employeePhoneNo", empPhoneNo);
-	        employeeData.put("id", empId);
+	        employeeData.put("id", id);
 
 	        JSONObject employeePhoto = new JSONObject();
-	        employeePhoto.put("id", fileEntryId);
-
+	        employeePhoto.put("id", fileEntry.getFileEntryId());
+	        employeePhoto.put("name", file.getName());
+	        
 	        JSONObject link = new JSONObject();
 	        link.put("href", fileEntryURL);
-	        link.put("label", title);
-
+	        link.put("label", file.getName());
+	        
 	        employeePhoto.put("link", link);
-	        employeePhoto.put("name", title);
-
 	        employeeData.put("employeePhoto", employeePhoto);
 
 	        try {
-	            String updateResponse = HttpConnectionUtil.putUrl(employeeData.toString(), "http://localhost:8080", "/o/c/employees/", id);
-	            System.out.println("Update Response : " +updateResponse);
-	            actionRequest.setAttribute("updateResponse", updateResponse);
+	            String updateResponse = HttpConnectionUtil.putUrl(
+	                    employeeData.toString(), "http://localhost:8080", "/o/c/employees/", id);
+	            System.out.println("Update Response: " + updateResponse);
+	            actionRequest.setAttribute("updateResponse", new JSONArray("[" + updateResponse + "]"));
 	        } catch (UnirestException e) {
-	            _log.error("Error updating employee data: " + e.getMessage(), e);
+	            _log.error("Error updating employee data: ", e);
 	        }
 	    } catch (FileNotFoundException e) {
-	        _log.error("File not found: " + e.getMessage(), e);
+	        _log.error("File not found: ", e);
 	    } catch (PortalException e) {
-	        _log.error("Error uploading file: " + e.getMessage(), e);
+	        _log.error("Error uploading file: ", e);
 	    }
 	}
+
+
+//	public void updateEmployee(ActionRequest actionRequest, ActionResponse actionResponse)
+//	        throws IOException, PortletException {
+//		
+//		System.out.println("Update employee Method inside..............");
+//
+//		long id = ParamUtil.getLong(actionRequest, "id");
+//		System.out.println("Update EmployeeId : " + id);
+//		
+//		
+//	    UploadPortletRequest uploadPortletRequest = PortalUtil.getUploadPortletRequest(actionRequest);	    	    
+//	    File file = uploadPortletRequest.getFile("employeePhoto");
+//	    String empName = ParamUtil.getString(uploadPortletRequest, "employeeName");
+//	    String empAddress = ParamUtil.getString(uploadPortletRequest, "employeeAddress");
+//	    int empAge = ParamUtil.getInteger(uploadPortletRequest, "employeeAge");
+//	    long empPhoneNo = ParamUtil.getLong(uploadPortletRequest, "employeePhoneNo");
+//	    long empId = ParamUtil.getLong(uploadPortletRequest, "id");
+//
+//	    ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
+//	    long repositoryId = themeDisplay.getScopeGroupId();
+//	    long folderId = DLFolderConstants.DEFAULT_PARENT_FOLDER_ID;
+//
+//	    ServiceContext serviceContext;
+//	    try {
+//	        serviceContext = ServiceContextFactory.getInstance(DLFileEntry.class.getName(), actionRequest);
+//	    } catch (PortalException e1) {
+//	        _log.error("Error initializing service context: " + e1.getMessage(), e1);
+//	        return;
+//	    }
+//
+//	    try (InputStream is = new FileInputStream(file)) {
+//	        String title = file.getName();
+//	        String description = "Updated profile picture of " + empName;
+//	        String mimeType = MimeTypesUtil.getContentType(file);
+//	        FileEntry fileEntry = DLAppServiceUtil.addFileEntry("", repositoryId, folderId, file.getName(), mimeType, title,
+//	                description, "", mimeType, is, file.length(), null, null, serviceContext);
+//
+//	        String fileEntryId = String.valueOf(fileEntry.getFileEntryId());
+//	        String fileEntryURL = DLURLHelperUtil.getPreviewURL(
+//	                fileEntry, fileEntry.getFileVersion(), themeDisplay, StringPool.BLANK, false, false);
+//
+//	        JSONObject employeeData = new JSONObject();
+//	        employeeData.put("employeeName", empName);
+//	        employeeData.put("employeeAddress", empAddress);
+//	        employeeData.put("employeeAge", empAge);
+//	        employeeData.put("employeePhoneNo", empPhoneNo);
+//	        employeeData.put("id", empId);
+//
+//	        JSONObject employeePhoto = new JSONObject();
+//	        employeePhoto.put("id", fileEntryId);
+//
+//	        JSONObject link = new JSONObject();
+//	        link.put("href", fileEntryURL);
+//	        link.put("label", title);
+//
+//	        employeePhoto.put("link", link);
+//	        employeePhoto.put("name", title);
+//
+//	        employeeData.put("employeePhoto", employeePhoto);
+//
+//	        try {
+//	            String updateResponse = HttpConnectionUtil.putUrl(employeeData.toString(), "http://localhost:8080", "/o/c/employees/", id);
+//	            System.out.println("Update Response : " +updateResponse);
+//	            actionRequest.setAttribute("updateResponse", updateResponse);
+//	        } catch (UnirestException e) {
+//	            _log.error("Error updating employee data: " + e.getMessage(), e);
+//	        }
+//	    } catch (FileNotFoundException e) {
+//	        _log.error("File not found: " + e.getMessage(), e);
+//	    } catch (PortalException e) {
+//	        _log.error("Error uploading file: " + e.getMessage(), e);
+//	    }
+//	}
 	
+	@Override
+	private void processAction(ActionRequest actionRequest, ActionResponse actionResponse) throws IOException  {
+	    System.out.println("Inside Delete URL Method......");
+	    try {
+	        long id = ParamUtil.getLong(actionRequest, "id");
+	        System.out.println("Employee Id : " + id);
+	        
+	        // Perform the deletion and get response
+	        String deleteResponse = HttpConnectionUtil.deleteUrl("http://localhost:8080", "/o/c/employees/", id);
+	        
+	        // Log response for verification
+	        System.out.println("Delete Response: " + deleteResponse);
+	        
+	        // Send response as a request attribute
+	        actionRequest.setAttribute("deleteResponse", deleteResponse);
+	        
+	    } catch (UnirestException e) {
+	        _log.error("Error deleting URL Generator", e);
+	    } catch (NumberFormatException e) {
+	        _log.error("Invalid ID format", e);
+	    }
+	    super.processAction(actionRequest, actionResponse);
+	}
 	
+
+//	@ProcessAction(name = "deleteURLGenerator")
+//	private void deleteURLGenerator(ActionRequest actionRequest, ActionResponse actionResponse) throws IOException {
+//		System.out.println("Inside Delete URL Method......");
+//		try {
+//			long id = ParamUtil.getLong(actionRequest, "id");
+//			System.out.println("Employee Id : " + id);
+//			String deleteResponse = HttpConnectionUtil.deleteUrl("http://localhost:8080", "/o/c/employees/", id);
+//
+//			actionRequest.setAttribute("deleteResponse", deleteResponse);
+//		} catch (UnirestException e) {
+//			_log.error("Error deleting URL Generator", e);
+//		} catch (NumberFormatException e) {
+//			_log.error("Invalid ID format", e);
+//		}
+//	}
 }

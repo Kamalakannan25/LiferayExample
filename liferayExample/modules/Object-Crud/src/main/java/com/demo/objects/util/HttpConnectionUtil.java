@@ -51,4 +51,18 @@ public class HttpConnectionUtil {
 		return response.getBody();
 	}
 	
+	public static String deleteUrl(String baseUrl, String endpoint, long id) throws UnirestException {
+	System.out.println("Delete URl..........");
+	
+		Unirest.setTimeouts(0, 0);
+	    String url = baseUrl + endpoint + id;
+
+	    HttpResponse<String> response = Unirest.delete(url)
+	        .header("Authorization", "Basic dGVzdEBsaWZlcmF5LmNvbToxMjM0")
+	        .body("")
+	        .asString();
+
+	    return response.getBody();
+	}
+	
 }

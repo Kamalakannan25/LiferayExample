@@ -1,0 +1,48 @@
+components:
+    schemas:
+      Student:
+        description: 
+          Represent student apis.
+        properties:
+          id:
+            type: integer
+            format: int64
+          name:
+            type: string
+          standard:
+            type: string
+          message:
+            type: object
+            readOnly: true
+          data:
+            type: object
+        type: object
+info:
+    description: "DemoHeadless REST API"
+    license:
+        name: "Apache 2.0"
+        url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+    title: "DemoHeadless"
+    version: v1.0
+openapi: 3.0.1
+paths:
+  "/get-student":
+    get:
+      operationId: getStudent
+      tags: ["Student"]
+      description: get student
+      summary: "get student"
+      responses:
+        '200':
+          description: Student listed successfully
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/Student"
+            application/xml:
+              schema:
+                  $ref: "#/components/schemas/Student"
+        '403':
+          description: No student were found
+        '404':
+          description: API not found

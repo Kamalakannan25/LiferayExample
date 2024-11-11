@@ -1,0 +1,1 @@
+create index IX_EF079AF on Studio_Studio (uuid_[$COLUMN_LENGTH:75$]);

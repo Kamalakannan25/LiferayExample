@@ -5,47 +5,38 @@
 
 <portlet:actionURL name="updateEmployee" var="updateEmployeeActionURL" />
 
-  <%
-String empId = ParamUtil.getString(request, "id");
- System.out.println("empId........" + empId);
-JSONArray updateObject = (JSONArray) request.getAttribute("updateResponse");
-System.out.println("Update Data........ : "+ updateObject);
+<%
+    String empId = ParamUtil.getString(request, "id");
+    JSONArray updateObject = (JSONArray) request.getAttribute("updateResponse");
 
-long id = 0;
-String empName = "";
-String empAddress = "";	
+    long id = 0;
+    String empName = "";
+    String empAddress = "";    
 
-if (updateObject != null) {
-	  
- for(int i = 0; i < updateObject.length(); i++){
-	JSONObject update = updateObject.getJSONObject(i);
-	id = update.getLong("id");
-	empName = update.getString("employeeName");
-	 /* if (empId != null && empId.equals(String.valueOf(id))) { 
-		 empName = update.getString("employeeName");
-		 System.out.println("empName......." + empName);
-		 empAddress = update.getString("employeeAddress");
-		 break;
-	}  */
-  }  
-}else{
-	 System.out.println("Update object is null");
- }
+    if (updateObject != null) {
+        for (int i = 0; i < updateObject.length(); i++) {
+            JSONObject update = updateObject.getJSONObject(i);
+            id = update.getLong("id");
+            empName = update.getString("employeeName");
+            empAddress = update.getString("employeeAddress");
+        }
+    } else {
+        System.out.println("Update object is null");
+    }
 %>  
 
 <aui:form action="<%= updateEmployeeActionURL %>" name="UpdateEmployeeForm" method="POST">
-
-    <aui:input name="id" type="text" value="<%= String.valueOf("id") %>" />
+    <aui:input name="id" type="text" value="<%= String.valueOf(id) %>" />
 
     <aui:row>
         <aui:col width="30">
-            <aui:input name="employeeName" label="Employee Name" type="text" value="<%=empName %>" />
+            <aui:input name="employeeName" label="Employee Name" type="text" value="<%= empName %>" />
         </aui:col>
     </aui:row>
 
     <aui:row>
         <aui:col width="30">
-            <aui:input name="employeeAddress" label="Employee Address" type="text"  />
+            <aui:input name="employeeAddress" label="Employee Address" type="text" value="<%= empAddress %>" />
         </aui:col>
     </aui:row>
 

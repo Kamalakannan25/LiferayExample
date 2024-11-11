@@ -10,6 +10,8 @@ String jsonData = (String) request.getAttribute("EmpData");
 JSONObject EmpData = new JSONObject(jsonData);
 JSONArray jsonArray = EmpData.getJSONArray("items");
 
+String deleteResponsesssss = (String) request.getAttribute("deleteResponse");
+
 %> 
 
 <portlet:renderURL var="addEmployeeRenderURL">
@@ -59,6 +61,14 @@ JSONArray jsonArray = EmpData.getJSONArray("items");
                     </portlet:renderURL>
                     <a href="<%= editRenderURL %>" class="btn btn-primary">Edit</a>
                     
+                    <portlet:actionURL var="deleteEmployeeActionURL" name="deleteURLGenerator">
+    					<portlet:param name="id" value="${id}" />
+					</portlet:actionURL>
+                	
+                	<%-- <button onclick="deleteURLGenerator('${deleteEmployeeActionURL}');">Delete Employee</button> --%>
+                	<button onclick="deleteEmployee('${deleteEmployeeActionURL}');">Delete Employee</button>
+                <%-- <button type="button" class="btn btn-danger" onclick="deleteURLGenerator('<%= deleteEmployeeActionURL %>')">Delete</button> --%>
+                    
                 </td>
         </tr>
     
@@ -71,6 +81,26 @@ JSONArray jsonArray = EmpData.getJSONArray("items");
 $(document).ready(function() {
     $('#moduleTable').DataTable();
 });
+
+
+
+function deleteEmployee(url) {
+    if (confirm("Are you sure you want to delete this employee?")) {
+        fetch(url, {
+            method: 'POST'
+        }).then(response => {
+            if (response.ok) {
+                alert("Employee deleted successfully!");
+                location.reload(); // Refresh the page or handle as needed
+            } else {
+                alert("Failed to delete employee.");
+            }
+        }).catch(error => {
+            console.error("Error during deletion:", error);
+            alert("An error occurred while deleting the employee.");
+        });
+    }
+}
 </script>
 
 

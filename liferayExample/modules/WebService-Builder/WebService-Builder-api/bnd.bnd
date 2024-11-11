@@ -1,0 +1,10 @@
+Bundle-Name: WebService-Builder-api
+Bundle-SymbolicName: com.demo.webservice.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.demo.webservice.exception,\
+	com.demo.webservice.model,\
+	com.demo.webservice.service,\
+	com.demo.webservice.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../WebService-Builder-service/service.xml

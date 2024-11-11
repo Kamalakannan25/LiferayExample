@@ -1,0 +1,10 @@
+Bundle-Name: Headless-service-Builder-api
+Bundle-SymbolicName: com.headless.build.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.headless.build.exception,\
+	com.headless.build.model,\
+	com.headless.build.service,\
+	com.headless.build.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../Headless-service-Builder-service/service.xml

@@ -1,0 +1,7 @@
+apiDir: "../Demo-Headless-api/src/main/java"
+apiPackagePath: "com.demo.head"
+application:
+    baseURI: "/Demo-Headless"
+    className: "DemoHeadlessApplication"
+    name: "DemoHeadless"
+author: "Suchismita"

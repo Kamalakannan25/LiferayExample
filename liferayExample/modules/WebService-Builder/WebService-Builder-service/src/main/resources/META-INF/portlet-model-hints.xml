@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.demo.webservice.model.Studio">
+		<field name="uuid" type="String" />
+		<field name="studioId" type="long" />
+		<field name="cameraName" type="String" />
+		<field name="cameraModel" type="String" />
+		<field name="cameraPrice" type="long" />
+	</model>
+</model-hints>

@@ -1,0 +1,6 @@
+Bundle-Name: Demo-Headless-api
+Bundle-SymbolicName: com.demo.head.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.demo.head.dto.v1_0,\
+	com.demo.head.resource.v1_0

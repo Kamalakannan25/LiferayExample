@@ -469,13 +469,20 @@ $('[data-ddmforminstanceid="37610"] .ddm-form-builder-app').addClass('sampleForm
 </script>
 <style>
 [data-ddmforminstanceid="37610"] .sampleForm {
-    background: whitesmoke;
-    border: solid 1px #FFF;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-     width: 32%;
-    border-radius: 20px;
-    margin-top: 20px;
+    background: #f0f8ff; /* Light blue background */
+    border: solid 1px #ccc; /* Light gray border */
+    box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.15); /* Softer shadow */
+    transition: all 0.3s ease-in-out; /* Smoother transition */
+    width: 40%; /* Increased width */
+    border-radius: 15px; /* Softer rounded corners */
+    margin-top: 30px; /* More top margin */
+    padding: 20px; /* Added padding */
+}
+
+/* Add a hover effect to elevate the form */
+[data-ddmforminstanceid="37610"] .sampleForm:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3); /* Darker shadow on hover */
+    transform: translateY(-5px); /* Slight lift on hover */
 }
 
 </style>

@@ -11,6 +11,11 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
+<c:set var="ADD_STUDENT" value="ADD_STUDENT" />
+<c:set var="UPDATE_STUDENT" value="UPDATE_STUDENT" />
+<c:set var="VIEW_STUDENT" value="VIEW_STUDENT" />
+<c:set var="DELETE_STUDENT" value="DELETE_STUDENT" />
+
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />

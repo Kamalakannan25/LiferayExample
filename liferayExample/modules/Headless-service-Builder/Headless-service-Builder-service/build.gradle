@@ -1,0 +1,11 @@
+dependencies {
+	compile project(":modules:Headless-service-Builder:Headless-service-Builder-api")
+
+	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
+}
+
+buildService {
+	apiDir = "../Headless-service-Builder-api/src/main/java"
+}
+
+group = "com.headless.build"

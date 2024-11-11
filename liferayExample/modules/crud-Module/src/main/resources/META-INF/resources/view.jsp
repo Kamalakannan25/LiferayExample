@@ -10,11 +10,19 @@ List<Student> student = (List<Student>)request.getAttribute("student");
     <portlet:param name="mvcPath" value="/addStudent.jsp"/>
 </portlet:renderURL>
  
-<div class="mb-5">
+ 
+ <c:if
+        test="${permissionChecker.hasPermission(scopeGroupId, portletDisplay.rootPortletId, portletDisplay.resourcePK, ADD_STUDENT)}">
+
+        <aui:a href="<%=addRenderURL.toString()%>" label="Add"
+            cssClass="btn btn-light" />
+    </c:if>
+ 
+<%-- <div class="mb-5">
     <a href="<%= addRenderURL %>" class="btn  btn-primary btn-default">
         <i class="glyphicon glyphicon-plus"></i> Add
     </a>
-</div>
+</div> --%>
 
 <table id="moduleTable" class="display">
     <thead>
