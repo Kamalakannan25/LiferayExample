@@ -1,0 +1,4 @@
+Bundle-Name: Rest-Headless
+Bundle-SymbolicName: com.demo.rest
+Bundle-Version: 1.0.0
+Liferay-Configuration-Path: /configuration

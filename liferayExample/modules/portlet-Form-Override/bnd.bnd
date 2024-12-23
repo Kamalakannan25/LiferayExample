@@ -1,0 +1,4 @@
+Bundle-Name: portlet-Form-Override
+Bundle-SymbolicName: com.demo.sam
+Bundle-Version: 1.0.0
+Export-Package: com.demo.sam.constants

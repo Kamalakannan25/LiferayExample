@@ -1,0 +1,4 @@
+Bundle-Name: Document-Library
+Bundle-SymbolicName: com.demo.docs
+Bundle-Version: 1.0.0
+Export-Package: com.demo.docs.constants

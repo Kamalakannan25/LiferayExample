@@ -299,29 +299,29 @@ public class ObjectCrudPortlet extends MVCPortlet {
 //	    }
 //	}
 	
-	@Override
-	private void processAction(ActionRequest actionRequest, ActionResponse actionResponse) throws IOException  {
-	    System.out.println("Inside Delete URL Method......");
-	    try {
-	        long id = ParamUtil.getLong(actionRequest, "id");
-	        System.out.println("Employee Id : " + id);
-	        
-	        // Perform the deletion and get response
-	        String deleteResponse = HttpConnectionUtil.deleteUrl("http://localhost:8080", "/o/c/employees/", id);
-	        
-	        // Log response for verification
-	        System.out.println("Delete Response: " + deleteResponse);
-	        
-	        // Send response as a request attribute
-	        actionRequest.setAttribute("deleteResponse", deleteResponse);
-	        
-	    } catch (UnirestException e) {
-	        _log.error("Error deleting URL Generator", e);
-	    } catch (NumberFormatException e) {
-	        _log.error("Invalid ID format", e);
-	    }
-	    super.processAction(actionRequest, actionResponse);
-	}
+//	@Override
+//	private void processAction(ActionRequest actionRequest, ActionResponse actionResponse) throws IOException  {
+//	    System.out.println("Inside Delete URL Method......");
+//	    try {
+//	        long id = ParamUtil.getLong(actionRequest, "id");
+//	        System.out.println("Employee Id : " + id);
+//	        
+//	        // Perform the deletion and get response
+//	        String deleteResponse = HttpConnectionUtil.deleteUrl("http://localhost:8080", "/o/c/employees/", id);
+//	        
+//	        // Log response for verification
+//	        System.out.println("Delete Response: " + deleteResponse);
+//	        
+//	        // Send response as a request attribute
+//	        actionRequest.setAttribute("deleteResponse", deleteResponse);
+//	        
+//	    } catch (UnirestException e) {
+//	        _log.error("Error deleting URL Generator", e);
+//	    } catch (NumberFormatException e) {
+//	        _log.error("Invalid ID format", e);
+//	    }
+//	    super.processAction(actionRequest, actionResponse);
+//	}
 	
 
 //	@ProcessAction(name = "deleteURLGenerator")

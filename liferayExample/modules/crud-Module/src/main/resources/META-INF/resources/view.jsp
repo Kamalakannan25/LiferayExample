@@ -1,10 +1,13 @@
 <%@page import="com.demo.builder.model.Student"%>
 <%@page import="java.util.List"%>
 <%@ include file="/init.jsp" %>
+<%@ taglib uri="http://liferay.com/tld/security" prefix="liferay-security" %>
+
 
 <%
 List<Student> student = (List<Student>)request.getAttribute("student");
 %>
+
 
 <portlet:renderURL var="addRenderURL">
     <portlet:param name="mvcPath" value="/addStudent.jsp"/>
@@ -17,6 +20,17 @@ List<Student> student = (List<Student>)request.getAttribute("student");
         <aui:a href="<%=addRenderURL.toString()%>" label="Add"
             cssClass="btn btn-light" />
     </c:if>
+    
+    
+    <portlet:renderURL var="jstlRenderURL">
+    <portlet:param name="mvcPath" value="/JSTL.jsp"/>
+</portlet:renderURL>
+ 
+<div class="mb-5">
+    <a href="<%= jstlRenderURL %>" class="btn  btn-primary btn-default">
+        <i class="glyphicon glyphicon-plus"></i> JSTL
+    </a>
+</div>
  
 <%-- <div class="mb-5">
     <a href="<%= addRenderURL %>" class="btn  btn-primary btn-default">

@@ -10,6 +10,19 @@
 <%
 long formInstanceId = ddmFormDisplayContext.getFormInstanceId();
 boolean limitToOneSubmissionPerUser = DDMFormInstanceSubmissionLimitStatusUtil.isLimitToOneSubmissionPerUser(ddmFormDisplayContext.getFormInstance());
+
+ /* long groupId = themeDisplay.getScopeGroupId();
+List<DDMFormInstance> formInstances = DDMFormInstanceLocalServiceUtil.getFormInstances(groupId);
+
+for (DDMFormInstance formInstance : formInstances) {
+    System.out.println("Form Name: " + formInstance.getNameCurrentValue());
+    System.out.println("Form Instance ID: " + formInstance.getFormInstanceId());
+}  */
+
+/* DDMFormInstance formInstance1 = DDMFormInstanceLocalServiceUtil.fetchDDMFormInstance(formInstanceId);
+if (formInstance1 != null) {
+    System.out.println("Form Instance Name: " + formInstance1.getNameCurrentValue());
+} */
 %>
 
 <c:choose>
@@ -463,12 +476,116 @@ boolean limitToOneSubmissionPerUser = DDMFormInstanceSubmissionLimitStatusUtil.i
 	</div>
 </c:if>
 
+<%-- <%
+long formInstanceId = DDMFormInstanceLocalServiceUtil.getFormInstance(formInstanceId);
+renderRequest.setAttribute("formInstanceId", formInstanceId);
+%>
+ --%>
+
+<%-- <%
+    long formInstanceId = ParamUtil.getLong(request, "formInstanceId", 0);
+    String someActionURL = (String) request.getAttribute("someActionURL");
+%>
+ --%>
+ <%-- <input type="hidden" id="<portlet:namespace />formInstanceId" value="${formInstanceId}" />
+ --%>
+
+
+<!-- <script>
+jQuery(document).ready(function() {
+    var formInstanceId = jQuery("#<portlet:namespace />formInstanceId").val();
+    console.log("Form Instance ID: " + formInstanceId);
+});
+/* $('[data-ddmforminstanceid="32980"] .ddm-form-builder-app').addClass('sampleForm') */
+
+</script>  -->
+
+
+<%
+request.setAttribute("formInstanceId", formInstanceId);
+
+%>
+<liferay-ddm:form-renderer formInstanceId="<%= formInstanceId %>" namespace="<portlet:namespace />" />
+
+<input type="hidden" id="<portlet:namespace />formInstanceId" value="<%= formInstanceId %>" />
+
+<div data-ddmforminstanceid="<%= formInstanceId %>">
+    <div class="sampleForm">
+    
+      <%= formInstanceId %>
+        
+    </div>
+</div>
+
 <script>
-$('[data-ddmforminstanceid="37610"] .ddm-form-builder-app').addClass('sampleForm')
+jQuery(document).ready(function () {
+   
+    var formInstanceId = jQuery("#<portlet:namespace />formInstanceId").val();  
+    console.log("Form Instance ID: " + formInstanceId);
+    
+    var targetForm = jQuery(`[data-ddmforminstanceid="${formInstanceId}"] .sampleForm`);    
+    if (targetForm.length > 0) {
+        targetForm.css({
+            "background": "#f0f8ff",
+            "border": "solid 1px #ccc",
+            "box-shadow": "0 6px 12px 0 rgba(0, 0, 0, 0.15)",
+            "transition": "all 0.3s ease-in-out",
+            "width": "40%",
+            "border-radius": "15px",
+            "margin-top": "30px",
+            "padding": "20px"
+        });
+        
+        targetForm.hover(
+            function () {
+                jQuery(this).css({
+                    "box-shadow": "0 8px 16px 0 rgba(0, 0, 0, 0.3)",
+                    "transform": "translateY(-5px)"
+                });
+            },
+            function () {
+                jQuery(this).css({
+                    "box-shadow": "0 6px 12px 0 rgba(0, 0, 0, 0.15)",
+                    "transform": "translateY(0)"
+                });
+            }
+        );
+    } else {
+        console.log("No form found with the specified formInstanceId.");
+    }
+});
 
 </script>
+
 <style>
-[data-ddmforminstanceid="37610"] .sampleForm {
+.form-input {
+        display: block;
+        width: calc(100% - 20px);
+        margin: 10px 0;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    textarea.form-input {
+        resize: vertical;
+        height: 100px;
+    }
+</style>
+
+
+
+
+<!-- <style>
+[data-ddmforminstanceid="32980"] .sampleForm {
     background: #f0f8ff; /* Light blue background */
     border: solid 1px #ccc; /* Light gray border */
     box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.15); /* Softer shadow */
@@ -480,9 +597,9 @@ $('[data-ddmforminstanceid="37610"] .ddm-form-builder-app').addClass('sampleForm
 }
 
 /* Add a hover effect to elevate the form */
-[data-ddmforminstanceid="37610"] .sampleForm:hover {
+[data-ddmforminstanceid="32980"] .sampleForm:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3); /* Darker shadow on hover */
     transform: translateY(-5px); /* Slight lift on hover */
 }
 
-</style>
+</style> -->

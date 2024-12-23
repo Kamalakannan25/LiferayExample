@@ -3,8 +3,12 @@ package com.crud.portlet;
 import com.crud.constants.CrudModulePortletKeys;
 import com.demo.builder.model.Student;
 import com.demo.builder.service.StudentLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
+import com.liferay.dynamic.data.mapping.service.DDMFieldLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalServiceUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -52,6 +56,19 @@ public class CrudModulePortlet extends MVCPortlet {
 		super.render(renderRequest, renderResponse);
 	}
 	
+	@Override
+	public void doView(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
+		
+	    String ddmFormInstanceIdParam = ParamUtil.getString(renderRequest, "ddmFormInstanceId");
+
+	    if (Validator.isNotNull(ddmFormInstanceIdParam)) {
+	        long ddmFormInstanceId = Long.parseLong(ddmFormInstanceIdParam);
+	        System.out.println("DDM Form Instance ID: " + ddmFormInstanceId);
+	    }
+
+	    super.doView(renderRequest, renderResponse);
+	}
+
 	
 	public void addStudent(ActionRequest actionRequest, ActionResponse actionResponse) {
 		System.out.println("Inside Add student Method");
